@@ -5,7 +5,8 @@ from os import path
 import lighting
 from settings import *
 from state import *
-from controls import *
+from controls import Controls
+from lights import Lights
 
 class Game:
     def __init__(self):
@@ -14,6 +15,7 @@ class Game:
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(TITLE)
         self.clock = pygame.time.Clock()
+        self.timer = 0
 
         self.offset = [0, 0]
 
@@ -23,14 +25,10 @@ class Game:
         self.map.load_map(path.join(game_folder, "levels/mapexample.txt"))
 
         # lighting
-        self.light_box = lighting.LightBox(self.screen.get_size())
-        self.visible_walls = self.light_box.render(self.screen, self.offset)
-        self.light_color = [100, 50, 255]
-        lighting.generate_walls(self.light_box, self.map.data, 25)
-        self.moving_box_id = self.light_box.add_dynamic_walls(lighting.box([1200, 100], [20, 20]))
+        self.lights = Lights(self.screen, self.offset, self.map)
 
         # controls
-        self.controls = controls()
+        self.controls = Controls()
 
     def new(self):
         self.all_sprites = pygame.sprite.Group()
@@ -45,6 +43,8 @@ class Game:
             self.events()
 
     def update(self):
+        self.timer += 1
+
         if self.controls.right:
             self.offset[0] += 2
         if self.controls.left:
@@ -53,6 +53,7 @@ class Game:
             self.offset[1] -= 2
         if self.controls.down:
             self.offset[1] += 2
+        self.lights.update(self.timer, self.offset)
         self.all_sprites.update()
 
     def quit(self):
@@ -61,10 +62,7 @@ class Game:
 
     def draw(self):
         self.screen.fill(BACKGROUND_COLOR)
-        self.visible_walls = self.light_box.render(self.screen, self.offset)
-        # wall lines
-        for wall in self.visible_walls:
-            wall.render(self.screen)
+        self.lights.draw(self.screen, self.offset)
 
         for sprite in self.all_sprites:
             self.screen.blit(sprite.image, self.camera.apply(sprite))

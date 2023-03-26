@@ -1,6 +1,6 @@
 import pygame
 
-class controls:
+class Controls:
     def __init__(self):
         self.right = False
         self.left = False
