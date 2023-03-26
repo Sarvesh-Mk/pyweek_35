@@ -2,7 +2,6 @@ import pygame, sys
 
 from os import path
 
-import lighting
 from settings import *
 from state import *
 from controls import Controls

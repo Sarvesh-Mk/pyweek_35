@@ -21,8 +21,7 @@ class Lights:
         self.visible_walls = self.light_box.render(screen, offset)
         self.light_color = [100, 50, 255]
         lighting.generate_walls(self.light_box, map.data, 25)
-        self.moving_box_id = self.light_box.add_dynamic_walls(lighting.box([1200, 100], [20, 20]))
-    
+
     def draw(self, screen, offset):
         mx, my = pygame.mouse.get_pos()
         self.visible_walls = self.light_box.render(screen, offset)
@@ -36,8 +35,6 @@ class Lights:
         
 
     def update(self, timer, offset):
-        self.light_box.update_dynamic_walls(self.moving_box_id, lighting.box([1200 + math.sin(timer / 100) * 50, 100 + math.sin(timer / 72) * 100], [(1 + math.sin(timer / 60)) * 50, (1 + math.sin(timer / 65)) * 50]))
-        
         # calculate new light color
         light_color = [100 + math.sin(timer / 10) * 100, 50 + math.sin(timer / 25) * 50, 200 + math.sin(timer / 15) * 55]
         # set alpha to 10%
