@@ -21,8 +21,8 @@ class Game:
 
         # map
         game_folder = path.dirname(__file__)
-        self.map = Map(path.join(game_folder, "levels/mapexample.txt"))
-        self.map.load_map(path.join(game_folder, "levels/mapexample.txt"))
+        self.map = Map(100, 40)
+        # self.map.load_map(path.join(game_folder, "levels/mapexample.txt"))
 
         # lighting
         self.lights = Lights(self.screen, self.offset, self.map)
@@ -30,6 +30,7 @@ class Game:
         # controls
         self.controls = Controls()
 
+    
     def new(self):
         self.all_sprites = pygame.sprite.Group()
         self.camera = Camera(self.map.width, self.map.height)
