@@ -13,6 +13,21 @@ class Map:
         self.tileheight = len(self.data)
         self.width = self.tilewidth * TILESIZE
         self.height = self.tileheight * TILESIZE
+    
+    def load_map(self, filename):
+        with open(filename, 'rt') as f:
+            data = f.read()
+        tile_list = []
+        y = 0
+        for row in data.split('\n'):
+            x = 0
+            for col in row:
+                if col == '0':
+                    tile_list.append([x, y])
+                x += 1
+            y += 1
+        self.data = tile_list
+        return tile_list
 
 class Camera:
     def __init__(self, width, height):
