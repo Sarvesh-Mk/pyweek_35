@@ -16,6 +16,10 @@ Activate environment:
 
 Instal dependencies:  
 `pip install -r requirements.txt`  
+or:  
+`pip3 install -r requirements.txt`  
 
 Run game:  
 `python main.py`  
+or  
+`python3 main.py`  
