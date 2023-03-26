@@ -53,6 +53,7 @@ class Game:
             self.offset[1] -= 2
         if self.controls.down:
             self.offset[1] += 2
+
         self.lights.update(self.timer, self.offset)
         self.all_sprites.update()
 

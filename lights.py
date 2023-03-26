@@ -24,10 +24,16 @@ class Lights:
         self.moving_box_id = self.light_box.add_dynamic_walls(lighting.box([1200, 100], [20, 20]))
     
     def draw(self, screen, offset):
+        mx, my = pygame.mouse.get_pos()
         self.visible_walls = self.light_box.render(screen, offset)
         # wall lines
         for wall in self.visible_walls:
             wall.render(screen)
+        
+        # dots for light
+        for m in self.mouse_light_offsets:
+            pygame.draw.circle(screen, (255, 0, 0), (mx + m[0], my + m[1]), 3)
+        
 
     def update(self, timer, offset):
         self.light_box.update_dynamic_walls(self.moving_box_id, lighting.box([1200 + math.sin(timer / 100) * 50, 100 + math.sin(timer / 72) * 100], [(1 + math.sin(timer / 60)) * 50, (1 + math.sin(timer / 65)) * 50]))
