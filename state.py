@@ -1,13 +1,13 @@
 import pygame
 from settings import *
-
+from world_gen import GenerateMap
 
 class Map:
-    def __init__(self, filename):
-        self.data = []
-        with open(filename, 'rt') as f:
-            for line in f:
-                self.data.append(line.strip())
+    def __init__(self, width, height):
+        # with open(filename, 'rt') as f:
+        #     for line in f:
+        #         self.data.append(line.strip())
+        self.data = GenerateMap(width, height)
 
         self.tilewidth = len(self.data[0])
         self.tileheight = len(self.data)
