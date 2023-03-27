@@ -26,9 +26,9 @@ class Lights:
         # A list of lights that will be used to light up entities
         self.entity_lights = []
 
-    def add_entity_light(self, entity):
+    def add_entity_light(self, entity, offset):
         # create a light for the entity
-        light = lighting.Light([0, 0], 80, self.light_img, entity.light_color, 255)
+        light = lighting.Light([entity.x + offset[0], entity.y + offset[1]], 80, self.light_img, entity.light_color, 255)
         # add the light to the light box
         light_id = self.light_box.add_light(light)
         # add the light to the list of entity lights
@@ -63,3 +63,8 @@ class Lights:
             self.light_box.get_light(light).position = [offset[0] + mx + self.mouse_light_offsets[i][0], offset[1] + my + self.mouse_light_offsets[i][1]]
             self.light_box.get_light(light).set_size(50)
             # self.light_box.get_light(light).set_size(int((1 + math.sin(timer / 15)) * 40 + 50))
+
+        for entity, light in self.entity_lights:
+            self.light_box.get_light(light).position = [entity.x, entity.y]
+            self.light_box.get_light(light).set_size(entity.light_size)
+            self.light_box.get_light(light).set_color(entity.light_color, True)

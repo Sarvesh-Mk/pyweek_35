@@ -8,6 +8,7 @@ from controls import Controls
 from lights.lights import Lights
 from towers.tower_manager import Tower_manager
 
+
 class Game:
     def __init__(self):
 
@@ -84,12 +85,11 @@ class Game:
             self.controls.keyboard_input(event)
             mouse_event = self.controls.mouse_input(event)
             if mouse_event == 1:
-                self.tower_manager.add_tower(self.offset)
-                
-                
-            
+                self.tower_manager.add_tower(self.offset, self.lights)
 
-g = Game()
-while True:
-    g.new()
-    g.run()
+
+if __name__ == "__main__":               
+    g = Game()
+    while True:
+        g.new()
+        g.run()
