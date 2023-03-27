@@ -5,11 +5,11 @@ class enemy():
     HP = 0
     size = 0
     speed = 0
-    colour = pygame.Colour.r
+    colour = pygame.Color.r
     def __init__(self,HP,size,speed):
         self.HP = HP
         self.size = size
         self.speed = speed
-    def createEnemy(self,screen,x,y):#this method will draw the enemy on the given screen at the given coordinates
+    def createEnemy(screen,x,y):#this method will draw the enemy on the given screen at the given coordinates
         pygame.draw.rect(screen,colour,pygame.Rect(x,y,size,size))
 

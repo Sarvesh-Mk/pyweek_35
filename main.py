@@ -5,6 +5,7 @@ from os import path
 from settings import *
 from state import *
 from controls import Controls
+from enemy import enemy
 from lights.lights import Lights
 from towers.tower_manager import Tower_manager
 
@@ -90,9 +91,11 @@ class Game:
                 if self.map.get_tile(x, y, self.offset) == '1':
                     self.tower_manager.add_tower(self.offset, self.lights)
 
+enemy1 = enemy(2,500,4)
 
 if __name__ == "__main__":               
     g = Game()
     while True:
         g.new()
         g.run()
+        enemy1.createEnemy(screen,30,40)
