@@ -1,7 +1,11 @@
 import pygame, sys
+
+from os import path
+
 from settings import *
 from state import *
-from os import path
+from controls import Controls
+from lights import Lights
 
 class Game:
     def __init__(self):
@@ -10,10 +14,21 @@ class Game:
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(TITLE)
         self.clock = pygame.time.Clock()
-        self.load_data()
+        self.timer = 0
 
-    def load_data(self):
-        self.map = Map(100,40)
+        self.offset = [0, 0]
+
+        # map
+        game_folder = path.dirname(__file__)
+        self.map = Map(100, 40)
+        # self.map.load_map(path.join(game_folder, "levels/mapexample.txt"))
+
+        # lighting
+        self.lights = Lights(self.screen, self.offset, self.map)
+
+        # controls
+        self.controls = Controls()
+
     
     def new(self):
         self.all_sprites = pygame.sprite.Group()
@@ -28,6 +43,18 @@ class Game:
             self.events()
 
     def update(self):
+        self.timer += 1
+
+        if self.controls.right:
+            self.offset[0] += 2
+        if self.controls.left:
+            self.offset[0] -= 2
+        if self.controls.up:
+            self.offset[1] -= 2
+        if self.controls.down:
+            self.offset[1] += 2
+
+        self.lights.update(self.timer, self.offset)
         self.all_sprites.update()
 
     def quit(self):
@@ -36,6 +63,8 @@ class Game:
 
     def draw(self):
         self.screen.fill(BACKGROUND_COLOR)
+        self.lights.draw(self.screen, self.offset)
+
         for sprite in self.all_sprites:
             self.screen.blit(sprite.image, self.camera.apply(sprite))
         pygame.display.flip()
@@ -47,6 +76,8 @@ class Game:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.quit()
+            self.controls.keyboard_input(event)
+            
 
 g = Game()
 while True:
