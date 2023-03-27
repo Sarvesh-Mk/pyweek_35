@@ -1,22 +1,26 @@
 import pygame
+from settings import *
 
-class enemy():
+class enemy(pygame.sprite.Sprite):
     #initialise all the attributes of the enemy
-    HP = 0
-    size = 0
-    speed = 0
     colour = pygame.Color.r
-    def __init__(self,HP,size,speed):
+    def __init__(self,game,x,y,HP=5,size=TILESIZE,speed=ENEMY_SPEED):
+        pygame.sprite.Sprite.__init__(self, game.all_sprites)
+        self.game = game
 
-        #Hp
+        self.image = pygame.Surface((TILESIZE, TILESIZE))
+        self.image.fill(RED)
+        self.rect = self.image.get_rect()
+        
+        self.x, self.y = x, y
         self.HP = HP
-
-        #size
         self.size = size
-
-        #speed of the enemy
         self.speed = speed
+        
 
-    def createEnemy(x,y,screen):#this method will draw the enemy on the given screen at the given coordinates
-        pygame.draw.rect(screen,colour,pygame.Rect(x,y,size,size))
+    def update(self):
+        self.rect.x, self.rect.y = self.x * TILESIZE, self.y * TILESIZE
+
+    # def draw(self):
+    #     pygame.draw.rect(self.game.screen,enemy.colour,pygame.Rect(self.x,self.y,self.size,self.size))
 

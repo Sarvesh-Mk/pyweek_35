@@ -35,7 +35,11 @@ def GenerateMap(width, height):
         
         if roll == 4 and y < height - 1 - drunk['padding']:
             drunk['y'] += 1
-    
+
+    for y in range(width):
+        for x in range(height):
+            if random.randint(1,20) == 1 and level[x][y] == '1':
+                level[x][y] = 'E'
     return level
 
 if __name__ == "__main__":

@@ -1,6 +1,10 @@
 __pycache__
+__pycache__/*
 */__pycache__
+levels/
 venv
 .env
 .idea
 .vscode
+.pyc
+.cpython-38.pyc
