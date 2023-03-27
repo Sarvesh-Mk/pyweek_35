@@ -20,12 +20,6 @@ class Game:
 
         self.offset = [WIDTH // 2, HEIGHT // 2]
 
-        # map
-        self.map = Map(100, 50)
-
-        # lighting
-        self.lights = Lights(self.screen, self.offset, self.map)
-
         # controls
         self.controls = Controls()
 
@@ -36,6 +30,8 @@ class Game:
     def new(self):
         self.all_sprites = pygame.sprite.Group()
         # self.camera = Camera(self.map.width, self.map.height)
+        self.map = Map(100, 50)
+        self.lights = Lights(self.screen, self.offset, self.map)
 
     def run(self):
         self.playing = True
@@ -49,13 +45,13 @@ class Game:
         self.timer += 1
 
         if self.controls.right:
-            self.offset[0] += 2
+            self.offset[0] += 5
         if self.controls.left:
-            self.offset[0] -= 2
+            self.offset[0] -= 5
         if self.controls.up:
-            self.offset[1] -= 2
+            self.offset[1] -= 5
         if self.controls.down:
-            self.offset[1] += 2
+            self.offset[1] += 5
 
         self.lights.update(self.timer, self.offset)
         self.all_sprites.update()
@@ -86,7 +82,6 @@ class Game:
             mouse_event = self.controls.mouse_input(event)
             if mouse_event == 1:
                 x, y = pygame.mouse.get_pos()
-                print(self.map.get_tile(x, y, self.offset))
                 if self.map.get_tile(x, y, self.offset) == '1':
                     self.tower_manager.add_tower(self.offset, self.lights)
 
