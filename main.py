@@ -13,8 +13,7 @@ class Game:
         self.load_data()
 
     def load_data(self):
-        game_folder = path.dirname(__file__)
-        self.map = Map(path.join(game_folder, "levels/mapexample.txt"))
+        self.map = Map(100,40)
     
     def new(self):
         self.all_sprites = pygame.sprite.Group()
