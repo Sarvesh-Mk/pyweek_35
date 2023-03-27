@@ -12,6 +12,7 @@ class Map:
         
         self.save_map(map_name, GenerateMap(width, height))
         self.light_data = self.load_map_from_file(map_name)
+        self. data = self.load_map_raw(map_name)
         
         self.width = height
         self.height = width
@@ -24,9 +25,12 @@ class Map:
 
         Returns: ascii character at the given x, y position
         """
-        x, y = (x + offset[0]) // 25, (y + offset[1]) // 25
-        print(x,y)
-        return self.map_array[y][x]
+        x, y = (x + offset[0]) // TILESIZE, (y + offset[1]) // TILESIZE
+        # print(x, y, len(self.map_array), len(self.map_array[0]))
+        if y<(len(self.map_array)+1) and y>=0 and x<(len(self.map_array[0])+1) and x >= 0:
+            return self.map_array[y][x]
+        else: 
+            return None
 
     def save_map(self, filename, map):
         str_map = ''
@@ -39,11 +43,11 @@ class Map:
                         
     def load_map_from_file(self, filename):
         with open(filename, 'rt') as f:
-            data = f.read()
+            light_data = f.read()
         tile_list = []
         y = 0
 
-        for row in data.split('\n'):
+        for row in light_data.split('\n'):
             x = 0
             map_row = []
             for col in row:
@@ -56,6 +60,19 @@ class Map:
 
         self.light_data = tile_list
         return tile_list
+    
+    def load_map_raw(self, filename):
+        data = []
+        with open(filename, 'rt') as f:
+            for line in f:
+                data.append(line.strip())
+
+        self.tilewidth = len(data[0])
+        self.tileheight = len(data)
+        self.width = self.tilewidth * TILESIZE
+        self.height = self.tileheight * TILESIZE
+        
+        return data
 
 class Camera:
     def __init__(self, width, height):
@@ -67,12 +84,12 @@ class Camera:
         return entity.rect.move(self.camera.topleft)
 
     def update(self, target):
-        x = -target.rect.x + int(WIDTH / 2)
-        y = -target.rect.y + int(HEIGHT / 2)
-
+        x = -target[0] # + int(WIDTH / 2)
+        y = -target[1] # + int(HEIGHT / 2)
+        
         #limit scrolling to map size
-        #x = min(0, x)  # left
-        #y = min(0, y)  # top
-        #x = max(-(self.width - WIDTH), x)  # right
-        #y = max(-(self.height - HEIGHT), y)  # bottom
+        # x = min(0, x)  # left
+        # y = min(0, y)  # top
+        # x = max(-(self.width - WIDTH), x)  # right
+        # y = max(-(self.height - HEIGHT), y)  # bottom
         self.camera = pygame.Rect(x, y, self.width, self.height)

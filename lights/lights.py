@@ -1,6 +1,7 @@
 import math
 import pygame
 
+from settings import *
 from . import lighting
 
 
@@ -21,7 +22,7 @@ class Lights:
         self.mouse_light_offsets = [[0,0]]
         self.visible_walls = self.light_box.render(screen, offset)
         self.light_color = [100, 50, 255]
-        lighting.generate_walls(self.light_box, map.light_data, 25)
+        lighting.generate_walls(self.light_box, map.light_data, TILESIZE)
 
         # A list of lights that will be used to light up entities
         self.entity_lights = []
