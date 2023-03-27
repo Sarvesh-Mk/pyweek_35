@@ -35,7 +35,7 @@ class Game:
     
     def new(self):
         self.all_sprites = pygame.sprite.Group()
-        self.camera = Camera(self.map.width, self.map.height)
+        # self.camera = Camera(self.map.width, self.map.height)
 
     def run(self):
         self.playing = True
@@ -85,7 +85,10 @@ class Game:
             self.controls.keyboard_input(event)
             mouse_event = self.controls.mouse_input(event)
             if mouse_event == 1:
-                self.tower_manager.add_tower(self.offset, self.lights)
+                x, y = pygame.mouse.get_pos()
+                print(self.map.get_tile(x, y, self.offset))
+                if self.map.get_tile(x, y, self.offset) == '1':
+                    self.tower_manager.add_tower(self.offset, self.lights)
 
 
 if __name__ == "__main__":               

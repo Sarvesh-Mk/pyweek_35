@@ -6,15 +6,27 @@ class Map:
     def __init__(self, width, height):
         # with open(filename, 'rt') as f:
         #     for line in f:
-        #         self.data.append(line.strip())
+        #         self.light_data.append(line.strip())
         map_name = 'generated_map_1.txt'
+        self.map_array = []
+        
         self.save_map(map_name, GenerateMap(width, height))
-        self.data = self.load_map_from_file(map_name)
+        self.light_data = self.load_map_from_file(map_name)
+        
+        self.width = height
+        self.height = width
 
-        self.tilewidth = len(self.data[0])
-        self.tileheight = len(self.data)
-        self.width = self.tilewidth * TILESIZE
-        self.height = self.tileheight * TILESIZE
+    def get_tile(self, x, y, offset):
+        """return the ascii character at the given x, y position. 0 for wall, 1 for floor.
+
+        x: mouse x position pluse offset[0]
+        y: mouse y position pluse offset[1]
+
+        Returns: ascii character at the given x, y position
+        """
+        x, y = (x + offset[0]) // 25, (y + offset[1]) // 25
+        print(x,y)
+        return self.map_array[y][x]
 
     def save_map(self, filename, map):
         str_map = ''
@@ -30,14 +42,19 @@ class Map:
             data = f.read()
         tile_list = []
         y = 0
+
         for row in data.split('\n'):
             x = 0
+            map_row = []
             for col in row:
+                map_row.append(col)
                 if col == '0':
                     tile_list.append([x, y])
                 x += 1
             y += 1
-        self.data = tile_list
+            self.map_array.append(map_row)
+
+        self.light_data = tile_list
         return tile_list
 
 class Camera:
