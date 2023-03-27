@@ -11,7 +11,7 @@ from towers.tower_manager import Tower_manager
 
 
 class Game:
-    def __init__(self):
+    def __init__(self,enemy):
 
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -33,6 +33,9 @@ class Game:
         # towers
         self.tower_manager = Tower_manager()
 
+        #enemy
+        self.enemy = enemy
+
     
     def new(self):
         self.all_sprites = pygame.sprite.Group()
@@ -45,6 +48,7 @@ class Game:
             self.update()
             self.draw()
             self.events()
+            self.enemy.createEnemy(30,40,self.screen)
 
     def update(self):
         self.timer += 1
@@ -94,8 +98,7 @@ class Game:
 enemy1 = enemy(2,500,4)
 
 if __name__ == "__main__":               
-    g = Game()
+    g = Game(enemy1)
     while True:
         g.new()
         g.run()
-        enemy1.createEnemy(screen,30,40)
