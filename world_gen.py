@@ -1,8 +1,9 @@
 import random
 
 def GenerateMap(width, height):
+    count = 1500
     drunk = {
-        'wallCountdown': 1500,
+        'wallCountdown': count,
         'padding': 0,
         'x': int( width / 2 ),
         'y': int( height / 2 )

@@ -26,3 +26,11 @@ class Controls:
                 self.down = False
             if event.key == pygame.K_w:
                 self.up = False
+
+    def mouse_input(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                return 1
+            if event.button == 3:
+                return 3
+        return 0

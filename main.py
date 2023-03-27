@@ -5,7 +5,9 @@ from os import path
 from settings import *
 from state import *
 from controls import Controls
-from lights import Lights
+from lights.lights import Lights
+from towers.tower_manager import Tower_manager
+
 
 class Game:
     def __init__(self):
@@ -16,12 +18,10 @@ class Game:
         self.clock = pygame.time.Clock()
         self.timer = 0
 
-        self.offset = [0, 0]
+        self.offset = [WIDTH // 2, HEIGHT // 2]
 
         # map
-        game_folder = path.dirname(__file__)
-        self.map = Map(100, 40)
-        # self.map.load_map(path.join(game_folder, "levels/mapexample.txt"))
+        self.map = Map(100, 50)
 
         # lighting
         self.lights = Lights(self.screen, self.offset, self.map)
@@ -29,10 +29,13 @@ class Game:
         # controls
         self.controls = Controls()
 
+        # towers
+        self.tower_manager = Tower_manager()
+
     
     def new(self):
         self.all_sprites = pygame.sprite.Group()
-        self.camera = Camera(self.map.width, self.map.height)
+        # self.camera = Camera(self.map.width, self.map.height)
 
     def run(self):
         self.playing = True
@@ -65,9 +68,12 @@ class Game:
         self.screen.fill(BACKGROUND_COLOR)
         self.lights.draw(self.screen, self.offset)
 
+        self.tower_manager.draw(self.screen, self.offset)
+
         for sprite in self.all_sprites:
             self.screen.blit(sprite.image, self.camera.apply(sprite))
         pygame.display.flip()
+
 
     def events(self):
         for event in pygame.event.get():
@@ -77,9 +83,16 @@ class Game:
                 if event.key == pygame.K_ESCAPE:
                     self.quit()
             self.controls.keyboard_input(event)
-            
+            mouse_event = self.controls.mouse_input(event)
+            if mouse_event == 1:
+                x, y = pygame.mouse.get_pos()
+                print(self.map.get_tile(x, y, self.offset))
+                if self.map.get_tile(x, y, self.offset) == '1':
+                    self.tower_manager.add_tower(self.offset, self.lights)
 
-g = Game()
-while True:
-    g.new()
-    g.run()
+
+if __name__ == "__main__":               
+    g = Game()
+    while True:
+        g.new()
+        g.run()
