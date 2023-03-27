@@ -1,7 +1,7 @@
 __pycache__
 __pycache__/*
-*/__pycache__
-levels/
+*/__pycache__/*
+levels/*
 venv
 .env
 .idea

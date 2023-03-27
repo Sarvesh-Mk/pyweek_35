@@ -25,9 +25,12 @@ class Map:
 
         Returns: ascii character at the given x, y position
         """
-        x, y = (x + offset[0]) // 25, (y + offset[1]) // 25
-        print(x,y)
-        return self.map_array[y][x]
+        x, y = (x + offset[0]) // TILESIZE, (y + offset[1]) // TILESIZE
+        # print(x, y, len(self.map_array), len(self.map_array[0]))
+        if y<(len(self.map_array)+1) and y>=0 and x<(len(self.map_array[0])+1) and x >= 0:
+            return self.map_array[y][x]
+        else: 
+            return None
 
     def save_map(self, filename, map):
         str_map = ''

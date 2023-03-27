@@ -31,7 +31,7 @@ class Game:
                     # generate walls here
                     ...
                 if tile == 'E':
-                    enemy(self, col, row)
+                    Enemy(self, col, row)
             
         self.lights = Lights(self.screen, self.offset, self.map)
         self.controls = Controls()
@@ -88,7 +88,7 @@ class Game:
             mouse_event = self.controls.mouse_input(event)
             if mouse_event == 1:
                 x, y = pygame.mouse.get_pos()
-                if self.map.get_tile(x, y, self.offset) != '0':
+                if self.map.get_tile(x, y, self.offset) == '1':
                     self.tower_manager.add_tower(self.offset, self.lights)
 
 if __name__ == "__main__":               
