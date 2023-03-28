@@ -28,17 +28,15 @@ class Game:
         self.map = Map(100, 50)
         self.camera = Camera(self.map.width, self.map.height)
         
-        wall = pygame.image.load("Sprites/wall.png").convert_alpha()
+        wall = pygame.image.load("Sprites_all/Sprites/Enviroument_tiles/water.png").convert_alpha()
         wall = pygame.transform.scale(wall, (TILESIZE,TILESIZE))
-        grass = pygame.image.load("Sprites/grass.png").convert_alpha()
+        grass = pygame.image.load("Sprites_all/Sprites/Enviroument_tiles/ground.png").convert_alpha()
         grass = pygame.transform.scale(grass, (TILESIZE,TILESIZE)) 
 
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
-                cart_x = row * TILEWIDTH_HALF
-                cart_y = col * TILEHEIGHT_HALF  
-                iso_x = (cart_x - cart_y) 
-                iso_y = (cart_x + cart_y)/2
+                iso_x = ( row * TILEWIDTH_HALF - col * TILEHEIGHT_HALF) 
+                iso_y = ( row * TILEWIDTH_HALF + col * TILEHEIGHT_HALF)/2
                 if tile == '1': cur = Tile(self, col, row,grass,"grass")
                 elif tile == '0': cur = Tile(self, col, row,wall,"wall")
                 elif tile == 'E': 
