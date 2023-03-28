@@ -35,8 +35,8 @@ class Controls:
                 return 3
         return 0
     
-    def collide_group(self, x, y, list):
+    def collide_group(self, x, y, list, camera):
         for instance in list:
-            if instance.rect.collidepoint((x,y)):
+            if instance.id == "wall" and camera.apply(instance).collidepoint((x,y)):
                 return True
         return False

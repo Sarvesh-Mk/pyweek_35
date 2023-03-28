@@ -35,23 +35,20 @@ class Game:
 
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
-                if tile == '1' or tile == '0' or tile == 'E':
-                    # generate walls here
-                    if tile == '1': cur = Tile(self, col, row,grass)
-                    elif tile == '0': cur = Tile(self, col, row,wall)
-                    elif tile == 'E': 
-                        Enemy(self, col, row)
-                        cur = Tile(self, col, row,grass)
-                    cart_x = row * TILEWIDTH_HALF
-                    cart_y = col * TILEHEIGHT_HALF  
-                    iso_x = (cart_x - cart_y) 
-                    iso_y = (cart_x + cart_y)/2
+                cart_x = row * TILEWIDTH_HALF
+                cart_y = col * TILEHEIGHT_HALF  
+                iso_x = (cart_x - cart_y) 
+                iso_y = (cart_x + cart_y)/2
+                if tile == '1': cur = Tile(self, col, row,grass,"grass")
+                elif tile == '0': cur = Tile(self, col, row,wall,"wall")
+                elif tile == 'E': 
+                    cur = Enemy(self, col, row)
                     cur.rect.x = self.screen.get_rect().centerx/2 + iso_x
                     cur.rect.y = self.screen.get_rect().centery + iso_y
-                    # centered_x = DISPLAYSURF.get_rect().centerx + iso_x
-                    # centered_y = DISPLAYSURF.get_rect().centery/2 + iso_y
-                # if tile == 'E':
-                #     Enemy(self, col, row)
+                    cur = Tile(self, col, row,grass,"grass")
+                
+                cur.rect.x = self.screen.get_rect().centerx/2 + iso_x
+                cur.rect.y = self.screen.get_rect().centery + iso_y
             
         self.lights = Lights(self.screen, self.offset, self.map)
         self.controls = Controls()
@@ -112,7 +109,7 @@ class Game:
             mouse_event = self.controls.mouse_input(event)
             if mouse_event == 1:
                 x, y = pygame.mouse.get_pos()
-                if not self.controls.collide_group(x,y,self.tiles):
+                if not self.controls.collide_group(x,y,self.tiles,self.camera):
                     self.tower_manager.add_tower(self.offset, self.lights)
 
 if __name__ == "__main__":               

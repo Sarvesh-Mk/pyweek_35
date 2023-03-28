@@ -4,11 +4,11 @@ from settings import *
 
 class Tile(pygame.sprite.Sprite):
 
-    def __init__(self,game,x,y,image,size=TILESIZE,scale=None):
+    def __init__(self,game,x,y,image,id,size=TILESIZE,scale=None):
         pygame.sprite.Sprite.__init__(self, game.tiles)
         self.game = game
 
-        
+        self.id = id
         self.image = image
         self.rect = self.image.get_rect()
         
