@@ -29,9 +29,9 @@ class Game:
         self.camera = Camera(self.map.width, self.map.height)
         
         wall = pygame.image.load("Sprites/wall.png").convert_alpha()
-        wall = pygame.transform.scale(wall, (32,32))
+        wall = pygame.transform.scale(wall, (TILESIZE,TILESIZE))
         grass = pygame.image.load("Sprites/grass.png").convert_alpha()
-        grass = pygame.transform.scale(grass, (32,32)) 
+        grass = pygame.transform.scale(grass, (TILESIZE,TILESIZE)) 
 
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
@@ -46,8 +46,8 @@ class Game:
                     cart_y = col * TILEHEIGHT_HALF  
                     iso_x = (cart_x - cart_y) 
                     iso_y = (cart_x + cart_y)/2
-                    cur.rect.x = self.screen.get_rect().centerx + iso_x
-                    cur.rect.y = self.screen.get_rect().centery/2 + iso_y
+                    cur.rect.x = self.screen.get_rect().centerx/2 + iso_x
+                    cur.rect.y = self.screen.get_rect().centery + iso_y
                     # centered_x = DISPLAYSURF.get_rect().centerx + iso_x
                     # centered_y = DISPLAYSURF.get_rect().centery/2 + iso_y
                 # if tile == 'E':
@@ -89,7 +89,9 @@ class Game:
     def draw(self):
         self.screen.fill(BACKGROUND_COLOR)
         for sprite in self.tiles:
+            # pygame.draw.circle(self.screen, BLACK, (sprite.rect.x, sprite.rect.y),4)
             self.screen.blit(sprite.image, self.camera.apply(sprite))
+            
         # for sprite in self.all_sprites:
         #     self.screen.blit(sprite.image, self.camera.apply(sprite))
         
@@ -110,7 +112,7 @@ class Game:
             mouse_event = self.controls.mouse_input(event)
             if mouse_event == 1:
                 x, y = pygame.mouse.get_pos()
-                if self.map.get_tile(x, y, self.offset) == '1':
+                if not self.controls.collide_group(x,y,self.tiles):
                     self.tower_manager.add_tower(self.offset, self.lights)
 
 if __name__ == "__main__":               

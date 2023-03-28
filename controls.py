@@ -34,3 +34,9 @@ class Controls:
             if event.button == 3:
                 return 3
         return 0
+    
+    def collide_group(self, x, y, list):
+        for instance in list:
+            if instance.rect.collidepoint((x,y)):
+                return True
+        return False
