@@ -6,6 +6,7 @@ from settings import *
 from state import *
 from controls import Controls
 from enemy import *
+from tilemap import *
 from lights.lights import Lights
 from towers.tower_manager import Tower_manager
 
@@ -23,15 +24,34 @@ class Game:
     def new(self):
         self.offset = [WIDTH // 2, HEIGHT // 2]
         self.all_sprites = pygame.sprite.Group()
+        self.tiles = pygame.sprite.Group()
         self.map = Map(100, 50)
         self.camera = Camera(self.map.width, self.map.height)
+        
+        wall = pygame.image.load("Sprites/wall.png").convert_alpha()
+        wall = pygame.transform.scale(wall, (32,32))
+        grass = pygame.image.load("Sprites/grass.png").convert_alpha()
+        grass = pygame.transform.scale(grass, (32,32)) 
+
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
-                if tile == '1':
+                if tile == '1' or tile == '0' or tile == 'E':
                     # generate walls here
-                    ...
-                if tile == 'E':
-                    Enemy(self, col, row)
+                    if tile == '1': cur = Tile(self, col, row,grass)
+                    elif tile == '0': cur = Tile(self, col, row,wall)
+                    elif tile == 'E': 
+                        Enemy(self, col, row)
+                        cur = Tile(self, col, row,grass)
+                    cart_x = row * TILEWIDTH_HALF
+                    cart_y = col * TILEHEIGHT_HALF  
+                    iso_x = (cart_x - cart_y) 
+                    iso_y = (cart_x + cart_y)/2
+                    cur.rect.x = self.screen.get_rect().centerx + iso_x
+                    cur.rect.y = self.screen.get_rect().centery/2 + iso_y
+                    # centered_x = DISPLAYSURF.get_rect().centerx + iso_x
+                    # centered_y = DISPLAYSURF.get_rect().centery/2 + iso_y
+                # if tile == 'E':
+                #     Enemy(self, col, row)
             
         self.lights = Lights(self.screen, self.offset, self.map)
         self.controls = Controls()
@@ -68,8 +88,10 @@ class Game:
 
     def draw(self):
         self.screen.fill(BACKGROUND_COLOR)
-        for sprite in self.all_sprites:
+        for sprite in self.tiles:
             self.screen.blit(sprite.image, self.camera.apply(sprite))
+        # for sprite in self.all_sprites:
+        #     self.screen.blit(sprite.image, self.camera.apply(sprite))
         
         self.lights.draw(self.screen, self.offset)
 

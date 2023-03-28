@@ -7,7 +7,7 @@ class Map:
         # with open(filename, 'rt') as f:
         #     for line in f:
         #         self.light_data.append(line.strip())
-        map_name = 'generated_map_1.txt'
+        map_name = 'levels/generated_map_1.txt'
         self.map_array = []
         
         self.save_map(map_name, GenerateMap(width, height))

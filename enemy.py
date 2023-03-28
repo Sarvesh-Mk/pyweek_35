@@ -3,7 +3,6 @@ from settings import *
 
 class Enemy(pygame.sprite.Sprite):
     #initialise all the attributes of the enemy
-    colour = pygame.Color.r
     def __init__(self,game,x,y,HP=5,size=TILESIZE,speed=ENEMY_SPEED):
         pygame.sprite.Sprite.__init__(self, game.all_sprites)
         self.game = game

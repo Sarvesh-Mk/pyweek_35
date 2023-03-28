@@ -40,8 +40,8 @@ class Lights:
         mx, my = pygame.mouse.get_pos()
         self.visible_walls = self.light_box.render(screen, offset)
         # wall lines
-        for wall in self.visible_walls:
-            wall.render(screen)
+        # for wall in self.visible_walls:
+        #     wall.render(screen)
         
         # dots for light
         for m in self.mouse_light_offsets:
