@@ -6,6 +6,8 @@ from settings import *
 from state import *
 from controls import Controls
 from enemy import *
+from spriteController import *
+from isometric_renderer import *
 from tilemap import *
 from lights.lights import Lights
 from towers.tower_manager import Tower_manager
@@ -27,26 +29,15 @@ class Game:
         self.tiles = pygame.sprite.Group()
         self.map = Map(100, 50)
         self.camera = Camera(self.map.width, self.map.height)
-        
-        wall = pygame.image.load("Sprites_all/Sprites/Enviroument_tiles/water.png").convert_alpha()
-        wall = pygame.transform.scale(wall, (TILESIZE,TILESIZE))
-        grass = pygame.image.load("Sprites_all/Sprites/Enviroument_tiles/ground.png").convert_alpha()
-        grass = pygame.transform.scale(grass, (TILESIZE,TILESIZE)) 
+        self.spriteController = SpriteController()
 
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
-                iso_x = ( row * TILEWIDTH_HALF - col * TILEHEIGHT_HALF) 
-                iso_y = ( row * TILEWIDTH_HALF + col * TILEHEIGHT_HALF)/2
-                if tile == '1': cur = Tile(self, col, row,grass,"grass")
-                elif tile == '0': cur = Tile(self, col, row,wall,"wall")
+                if tile == '1': Tile(self, col, row, self.spriteController.load_sprite("Sprites_all/grass_2.png"),"grass")
+                elif tile == '0': Tile(self, col, row,self.spriteController.load_sprite("Sprites_all/wall.png"),"wall")
                 elif tile == 'E': 
-                    cur = Enemy(self, col, row)
-                    cur.rect.x = self.screen.get_rect().centerx/2 + iso_x
-                    cur.rect.y = self.screen.get_rect().centery + iso_y
-                    cur = Tile(self, col, row,grass,"grass")
-                
-                cur.rect.x = self.screen.get_rect().centerx/2 + iso_x
-                cur.rect.y = self.screen.get_rect().centery + iso_y
+                    Enemy(self, col, row)
+                    Tile(self, col, row,self.spriteController.load_sprite("Sprites_all/grass_2.png"),"grass")
             
         self.lights = Lights(self.screen, self.offset, self.map)
         self.controls = Controls()
@@ -65,12 +56,12 @@ class Game:
         self.timer += 1
 
         if self.controls.right:
-            self.offset[0] += SCROLLSPEED
-        if self.controls.left:
             self.offset[0] -= SCROLLSPEED
-        if self.controls.up:
+        elif self.controls.left:
+            self.offset[0] += SCROLLSPEED
+        elif self.controls.up:
             self.offset[1] -= SCROLLSPEED
-        if self.controls.down:
+        elif self.controls.down:
             self.offset[1] += SCROLLSPEED
 
         self.lights.update(self.timer, self.offset)
@@ -83,9 +74,7 @@ class Game:
 
     def draw(self):
         self.screen.fill(BACKGROUND_COLOR)
-        for sprite in self.tiles:
-            # pygame.draw.circle(self.screen, BLACK, (sprite.rect.x, sprite.rect.y),4)
-            self.screen.blit(sprite.image, self.camera.apply(sprite))
+        render_isometric(self.screen,self.tiles,self.camera)
             
         # for sprite in self.all_sprites:
         #     self.screen.blit(sprite.image, self.camera.apply(sprite))
