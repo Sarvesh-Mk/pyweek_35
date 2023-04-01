@@ -5,7 +5,10 @@ from settings import *
 class Tile(pygame.sprite.Sprite):
 
     def __init__(self,game,x,y,image,id,size=TILESIZE,scale=None):
-        pygame.sprite.Sprite.__init__(self, (game.tiles,game.all_sprites))
+        if id == "wall":
+            pygame.sprite.Sprite.__init__(self, (game.tiles, game.all_sprites))
+        elif id == "grass":
+            pygame.sprite.Sprite.__init__(self, (game.ground))
         self.game = game
 
         self.id = id
@@ -26,7 +29,7 @@ class Tile(pygame.sprite.Sprite):
         self.iso_x = ((render_rect.y//TILESIZE) * TILEWIDTH_HALF - (render_rect.x//TILESIZE) * TILEHEIGHT_HALF) 
         self.iso_y = ((render_rect.y//TILESIZE) * TILEWIDTH_HALF + (render_rect.x//TILESIZE) * TILEHEIGHT_HALF)/2
         
-        render_rect.x = int(self.game.screen.get_rect().centerx/2 + self.iso_x)
-        render_rect.y = int(self.game.screen.get_rect().centery + self.iso_y)
+        render_rect.x = self.iso_x# int(self.game.screen.get_rect().x/2 + self.iso_x)
+        render_rect.y = self.iso_y# int(self.game.screen.get_rect().y + self.iso_y)
         
         self.game.screen.blit(self.image, render_rect)

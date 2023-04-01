@@ -20,23 +20,25 @@ class Game:
         pygame.display.set_caption(TITLE)
         self.clock = pygame.time.Clock()
         self.timer = 0
+        self.state_render = True
 
     
     def new(self):
         self.offset = [WIDTH // 2, HEIGHT // 2]
         self.all_sprites = pygame.sprite.Group()
         self.tiles = pygame.sprite.Group()
-        self.map = Map(100, 50)
+        self.ground = pygame.sprite.Group()
+        self.map = Map(100, 100)
         self.camera = Camera(self.map.width, self.map.height)
         self.spriteController = SpriteController()
 
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
-                if tile == '1': Tile(self, col, row, self.spriteController.load_sprite("Sprites_all/grass_2.png"),"grass")
+                if tile == '1': Tile(self, col, row, self.spriteController.load_sprite("Sprites_all/grass.png"),"grass")
                 elif tile == '0': Tile(self, col, row,self.spriteController.load_sprite("Sprites_all/wall.png"),"wall")
                 elif tile == 'E': 
                     Enemy(self, col, row,self.spriteController.load_sprite("Sprites_all/enemy.png"))
-                    Tile(self, col, row,self.spriteController.load_sprite("Sprites_all/grass_2.png"),"grass")
+                    Tile(self, col, row,self.spriteController.load_sprite("Sprites_all/grass.png"),"grass")
             
         self.lights = Lights(self.screen, self.offset, self.map)
         self.controls = Controls()
@@ -74,6 +76,9 @@ class Game:
     def draw(self):
         self.screen.fill(BACKGROUND_COLOR)
 
+        for sprite in self.ground:
+            sprite.render_isometric()
+
         for sprite in self.all_sprites:
             sprite.render_isometric()
         
@@ -90,6 +95,10 @@ class Game:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.quit()
+                if event.key == pygame.K_1:
+                    self.state_render = True
+                if event.key == pygame.K_2:
+                    self.state_render = False
             self.controls.keyboard_input(event)
             mouse_event = self.controls.mouse_input(event)
             if mouse_event == 1:
