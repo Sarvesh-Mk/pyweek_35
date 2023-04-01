@@ -37,7 +37,7 @@ class Game:
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 if tile == '1': Tile(self, col, row, self.spriteController.load_sprite("Sprites_all/grass_2.png"),"grass")
-                elif tile == '0': Tile(self, col, row,self.spriteController.load_sprite("Sprites_all/wall.png"),"wall")
+                elif tile == '0': Tile(self, col, row,self.spriteController.load_sprite("Sprites_all/air.png"),"air")
                 elif tile == 'E': 
                     Enemy(self, col, row,self.spriteController.load_sprite("Sprites_all/enemy.png"))
                     Tile(self, col, row,self.spriteController.load_sprite("Sprites_all/grass_2.png"),"grass")
@@ -86,7 +86,7 @@ class Game:
         for sprite in self.tiles:
             sprite.render_isometric()
         if self.show_enemies:
-            for sprite in self.enemies:
+            for sprite in self.all_sprites:
                 sprite.render_isometric()
         if self.selected != False:
             self.selected.render_isometric()
@@ -107,9 +107,7 @@ class Game:
                 if event.key == pygame.K_ESCAPE:
                     self.quit()
                 if event.key == pygame.K_1:
-                    self.show_enemies = True
-                if event.key == pygame.K_2:
-                    self.show_enemies = False
+                    self.show_enemies = not self.show_enemies
             self.controls.keyboard_input(event)
             self.manager.process_events(event)
             # mouse_event = self.controls.mouse_input(event)

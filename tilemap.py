@@ -6,6 +6,7 @@ class Tile(pygame.sprite.Sprite):
 
     def __init__(self,game,x,y,image,id,size=TILESIZE,scale=None):
         pygame.sprite.Sprite.__init__(self, (game.tiles))
+        
         self.game = game
 
         self.id = id
@@ -28,9 +29,6 @@ class Tile(pygame.sprite.Sprite):
         self.iso_y = ((render_rect.y//TILESIZE) * TILEWIDTH_HALF + (render_rect.x//TILESIZE) * TILEHEIGHT_HALF)/2
         
         if self.selected:
-            self.iso_y -= TILEHEIGHT_HALF
-
-        if self.id == "wall" and self.game.show_enemies:
             self.iso_y -= TILEHEIGHT_HALF
 
         render_rect.x = self.iso_x# int(self.game.screen.get_rect().x/2 + self.iso_x)
