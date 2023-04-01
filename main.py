@@ -10,6 +10,7 @@ from spriteController import *
 from tilemap import *
 from lights.lights import Lights
 from towers.tower_manager import Tower_manager
+from playercontrol import *
 
 
 class Game:
