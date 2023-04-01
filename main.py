@@ -7,7 +7,6 @@ from state import *
 from controls import Controls
 from enemy import *
 from spriteController import *
-from isometric_renderer import *
 from tilemap import *
 from lights.lights import Lights
 from towers.tower_manager import Tower_manager
@@ -36,7 +35,7 @@ class Game:
                 if tile == '1': Tile(self, col, row, self.spriteController.load_sprite("Sprites_all/grass_2.png"),"grass")
                 elif tile == '0': Tile(self, col, row,self.spriteController.load_sprite("Sprites_all/wall.png"),"wall")
                 elif tile == 'E': 
-                    Enemy(self, col, row)
+                    Enemy(self, col, row,self.spriteController.load_sprite("Sprites_all/enemy.png"))
                     Tile(self, col, row,self.spriteController.load_sprite("Sprites_all/grass_2.png"),"grass")
             
         self.lights = Lights(self.screen, self.offset, self.map)
@@ -74,14 +73,13 @@ class Game:
 
     def draw(self):
         self.screen.fill(BACKGROUND_COLOR)
-        render_isometric(self.screen,self.tiles,self.camera)
-            
-        # for sprite in self.all_sprites:
-        #     self.screen.blit(sprite.image, self.camera.apply(sprite))
-        
-        self.lights.draw(self.screen, self.offset)
 
-        self.tower_manager.draw(self.screen, self.offset)
+        for sprite in self.all_sprites:
+            sprite.render_isometric()
+        
+        # self.lights.draw(self.screen, self.offset)
+
+        # self.tower_manager.draw(self.screen, self.offset)
         pygame.display.flip()
 
 
