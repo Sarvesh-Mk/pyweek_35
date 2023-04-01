@@ -30,6 +30,9 @@ class Tile(pygame.sprite.Sprite):
         if self.selected:
             self.iso_y -= TILEHEIGHT_HALF
 
+        if self.id == "wall" and self.game.show_enemies:
+            self.iso_y -= TILEHEIGHT_HALF
+
         render_rect.x = self.iso_x# int(self.game.screen.get_rect().x/2 + self.iso_x)
         render_rect.y = self.iso_y# int(self.game.screen.get_rect().y + self.iso_y)
 

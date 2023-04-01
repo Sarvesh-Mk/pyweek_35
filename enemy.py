@@ -4,7 +4,7 @@ from settings import *
 class Enemy(pygame.sprite.Sprite):
     #initialise all the attributes of the enemy
     def __init__(self,game,x,y,image,HP=5,size=TILESIZE,speed=ENEMY_SPEED):
-        pygame.sprite.Sprite.__init__(self, game.all_sprites)
+        pygame.sprite.Sprite.__init__(self, (game.all_sprites, game.enemies))
         self.game = game
 
         self.image = image
@@ -18,6 +18,7 @@ class Enemy(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.x, self.rect.y = self.x * TILESIZE, self.y * TILESIZE
+        
 
     def render_isometric(self):
         render_rect = self.game.camera.apply(self)
