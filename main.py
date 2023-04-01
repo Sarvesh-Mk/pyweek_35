@@ -110,8 +110,10 @@ class Game:
                     self.show_enemies = not self.show_enemies
             self.controls.keyboard_input(event)
             self.manager.process_events(event)
-            # mouse_event = self.controls.mouse_input(event)
-            # if mouse_event == 1:
+            mouse_event = self.controls.mouse_input(event)
+            if mouse_event == 1 and self.selected:
+                self.selected.image = self.spriteController.load_sprite("Sprites_all/light.png")
+                self.selected.id = "light"
         x, y = pygame.mouse.get_pos()
         if self.selected != False:
             self.selected.selected = False
