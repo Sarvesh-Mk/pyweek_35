@@ -8,9 +8,7 @@ from controls import Controls
 from enemy import *
 from spriteController import *
 from tilemap import *
-from lights.lights import Lights
-from towers.tower_manager import Tower_manager
-
+from lights import *
 
 class Game:
     def __init__(self):
@@ -30,17 +28,20 @@ class Game:
         self.tiles = pygame.sprite.Group()
         self.ground = pygame.sprite.Group()
         self.enemies = pygame.sprite.Group()
+        self.lights = []
+        self.sprites = []
         self.map = Map(100, 100)
         self.camera = Camera(self.map.width, self.map.height)
         self.spriteController = SpriteController()
 
         for row, tiles in enumerate(self.map.data):
+            self.sprites.append([])
             for col, tile in enumerate(tiles):
-                if tile == '1': Tile(self, col, row, self.spriteController.load_sprite("Sprites_all/grass_2.png"),"grass")
-                elif tile == '0': Tile(self, col, row,self.spriteController.load_sprite("Sprites_all/air.png"),"air")
+                if tile == '1': self.sprites[row].append(Tile(self, col, row, self.spriteController.load_sprite("Sprites_all/grass_2.png"),"grass"))
+                elif tile == '0': self.sprites[row].append(Tile(self, col, row,self.spriteController.load_sprite("Sprites_all/air.png"),"air"))
                 elif tile == 'E': 
                     Enemy(self, col, row,self.spriteController.load_sprite("Sprites_all/enemy.png"))
-                    Tile(self, col, row,self.spriteController.load_sprite("Sprites_all/grass_2.png"),"grass")
+                    self.sprites[row].append(Tile(self, col, row,self.spriteController.load_sprite("Sprites_all/grass_2.png"),"grass"))
 
         self.controls = Controls()
         
@@ -76,6 +77,7 @@ class Game:
         self.tiles.update()
         self.manager.update(self.dt)
 
+
     def quit(self):
         pygame.quit()
         sys.exit()
@@ -83,13 +85,14 @@ class Game:
     def draw(self):
         self.screen.blit(self.background, (0,0))
 
+        render_lighting(self.sprites, self.lights)
         for sprite in self.tiles:
             sprite.render_isometric()
         if self.show_enemies:
             for sprite in self.all_sprites:
                 sprite.render_isometric()
-        if self.selected != False:
-            self.selected.render_isometric()
+        # if self.selected != False:
+        #     self.selected.render_isometric()
         
         self.manager.draw_ui(self.screen)
         
@@ -114,6 +117,7 @@ class Game:
             if mouse_event == 1 and self.selected:
                 self.selected.image = self.spriteController.load_sprite("Sprites_all/light.png")
                 self.selected.id = "light"
+                self.lights.append(self.selected)
         x, y = pygame.mouse.get_pos()
         if self.selected != False:
             self.selected.selected = False
