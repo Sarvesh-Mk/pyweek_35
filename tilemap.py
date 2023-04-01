@@ -5,10 +5,7 @@ from settings import *
 class Tile(pygame.sprite.Sprite):
 
     def __init__(self,game,x,y,image,id,size=TILESIZE,scale=None):
-        if id == "wall":
-            pygame.sprite.Sprite.__init__(self, (game.tiles, game.all_sprites))
-        elif id == "grass":
-            pygame.sprite.Sprite.__init__(self, (game.ground))
+        pygame.sprite.Sprite.__init__(self, (game.tiles, game.all_sprites))
         self.game = game
 
         self.id = id

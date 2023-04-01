@@ -33,11 +33,11 @@ class Enemy(pygame.sprite.Sprite):
 
     def render_isometric(self):
         render_rect = self.game.camera.apply(self)
-        self.iso_x = ((render_rect.y//TILESIZE) * TILEWIDTH_HALF - (render_rect.x//TILESIZE) * TILEHEIGHT_HALF) 
-        self.iso_y = ((render_rect.y//TILESIZE) * TILEWIDTH_HALF + (render_rect.x//TILESIZE) * TILEHEIGHT_HALF)/2
+        self.iso_x = ((render_rect.y//TILESIZE+1) * TILEWIDTH_HALF - (render_rect.x//TILESIZE+1) * TILEHEIGHT_HALF) 
+        self.iso_y = ((render_rect.y//TILESIZE+1) * TILEWIDTH_HALF + (render_rect.x//TILESIZE+1) * TILEHEIGHT_HALF)/2
         
-        #self.iso_x, self.iso_y = move_x_up(self.iso_x,self.iso_y)
-        #self.iso_x, self.iso_y = move_y_up(self.iso_x,self.iso_y)
+        self.iso_x, self.iso_y = move_x_up(self.iso_x,self.iso_y)
+        self.iso_x, self.iso_y = move_y_up(self.iso_x,self.iso_y)
         #self.iso_x, self.iso_y = move_x_down(self.iso_x,self.iso_y)
         #self.iso_x, self.iso_y = move_y_down(self.iso_x,self.iso_y)
 

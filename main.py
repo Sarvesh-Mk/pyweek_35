@@ -34,11 +34,11 @@ class Game:
 
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
-                if tile == '1': Tile(self, col, row, self.spriteController.load_sprite("Sprites_all/grass.png"),"grass")
+                if tile == '1': Tile(self, col, row, self.spriteController.load_sprite("Sprites_all/grass_2.png"),"grass")
                 elif tile == '0': Tile(self, col, row,self.spriteController.load_sprite("Sprites_all/wall.png"),"wall")
                 elif tile == 'E': 
                     Enemy(self, col, row,self.spriteController.load_sprite("Sprites_all/enemy.png"))
-                    Tile(self, col, row,self.spriteController.load_sprite("Sprites_all/grass.png"),"grass")
+                    Tile(self, col, row,self.spriteController.load_sprite("Sprites_all/grass_2.png"),"grass")
             
         self.lights = Lights(self.screen, self.offset, self.map)
         self.controls = Controls()
@@ -76,8 +76,8 @@ class Game:
     def draw(self):
         self.screen.fill(BACKGROUND_COLOR)
 
-        for sprite in self.ground:
-            sprite.render_isometric()
+        #for sprite in self.tiles:
+        #    sprite.render_isometric()
 
         for sprite in self.all_sprites:
             sprite.render_isometric()
