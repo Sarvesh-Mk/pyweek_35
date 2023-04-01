@@ -21,6 +21,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.timer = 0
         self.state_render = True
+        self.selected = False
 
     
     def new(self):
@@ -76,11 +77,11 @@ class Game:
     def draw(self):
         self.screen.fill(BACKGROUND_COLOR)
 
-        #for sprite in self.tiles:
-        #    sprite.render_isometric()
-
-        for sprite in self.all_sprites:
+        for sprite in self.tiles:
             sprite.render_isometric()
+        if self.state_render:
+            for sprite in self.all_sprites:
+                sprite.render_isometric()
         
         # self.lights.draw(self.screen, self.offset)
 
@@ -103,8 +104,13 @@ class Game:
             mouse_event = self.controls.mouse_input(event)
             if mouse_event == 1:
                 x, y = pygame.mouse.get_pos()
-                if not self.controls.collide_group(x,y,self.tiles,self.camera):
-                    self.tower_manager.add_tower(self.offset, self.lights)
+                
+                if self.selected != False:
+                    self.selected.selected = False
+                self.selected = self.controls.collide_group(x,y,self.tiles,self.camera)
+                print(self.selected)
+                if self.selected != False:
+                    self.selected.selected = True
 
 if __name__ == "__main__":               
     g = Game()
