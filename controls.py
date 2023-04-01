@@ -41,7 +41,7 @@ class Controls:
         for g in list:
             l.append(g)
         for instance in reversed(l):
-            if instance.id != "wall":
+            if instance.id == "grass":
                 render_rect = camera.apply(instance)
                 iso_x = ((render_rect.y//TILESIZE) * TILEWIDTH_HALF - (render_rect.x//TILESIZE) * TILEHEIGHT_HALF) 
                 iso_y = ((render_rect.y//TILESIZE) * TILEWIDTH_HALF + (render_rect.x//TILESIZE) * TILEHEIGHT_HALF)/2
