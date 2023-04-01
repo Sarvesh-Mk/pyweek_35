@@ -17,9 +17,8 @@ class Tile(pygame.sprite.Sprite):
         self.x, self.y = x, y
         self.rect.x, self.rect.y = self.x * TILESIZE, self.y * TILESIZE
 
-        self.is_shadow = False
-        self.shadow =pygame.Surface((image.get_width(), image.get_height()), flags=pygame.SRCALPHA)
-        self.shadow.fill((10, 10, 10, 0))
+        if id == "grass":
+            self.light_levels = self.game.spriteController.load_sprite_list(0,14,"Sprites_all/grass/grass_2- .png")
         # image.blit(dark, (0, 0), special_flags=pygame.BLEND_RGBA_SUB)
 
         # self.iso_x = ((self.rect.y//TILESIZE) * TILEWIDTH_HALF - (self.rect.x//TILESIZE) * TILEHEIGHT_HALF) 
@@ -41,8 +40,5 @@ class Tile(pygame.sprite.Sprite):
 
         render_rect.x = self.iso_x# int(self.game.screen.get_rect().x/2 + self.iso_x)
         render_rect.y = self.iso_y# int(self.game.screen.get_rect().y + self.iso_y)
-        
         self.game.screen.blit(self.image, render_rect)
-        if self.is_shadow:
-            self.image.blit(self.shadow, (0,0), special_flags=pygame.BLEND_RGBA_SUB)
         
