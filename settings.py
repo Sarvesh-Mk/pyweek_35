@@ -24,3 +24,15 @@ SCROLLSPEED = 25
 
 GRIDWIDTH = WIDTH // TILESIZE
 GRIDHEIGHT = HEIGHT // TILESIZE
+
+def move_x_up(x,y):
+    return x+TILESIZE, y-TILEHEIGHT_HALF
+
+def move_y_up(x,y):
+    return x-TILESIZE, y-TILEHEIGHT_HALF
+
+def move_x_down(x,y):
+    return x+TILESIZE, y+TILEHEIGHT_HALF
+
+def move_y_down(x,y):
+    return x-TILESIZE, y+TILEHEIGHT_HALF

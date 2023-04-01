@@ -24,8 +24,14 @@ class Enemy(pygame.sprite.Sprite):
         self.iso_x = ((render_rect.y//TILESIZE) * TILEWIDTH_HALF - (render_rect.x//TILESIZE) * TILEHEIGHT_HALF) 
         self.iso_y = ((render_rect.y//TILESIZE) * TILEWIDTH_HALF + (render_rect.x//TILESIZE) * TILEHEIGHT_HALF)/2
         
-        render_rect.x = int(self.game.screen.get_rect().centerx/2 + self.iso_x)-TILESIZE+10
-        render_rect.y = int(self.game.screen.get_rect().centery + self.iso_y)-TILESIZE+10
+        self.iso_y -= TILEHEIGHT_HALF
+        # self.iso_x, self.iso_y = move_x_up(self.iso_x,self.iso_y)
+        # self.iso_x, self.iso_y = move_y_up(self.iso_x,self.iso_y)
+        #self.iso_x, self.iso_y = move_x_down(self.iso_x,self.iso_y)
+        #self.iso_x, self.iso_y = move_y_down(self.iso_x,self.iso_y)
 
+        render_rect.x = self.iso_x# int(self.game.screen.get_rect().x/2 + self.iso_x)
+        render_rect.y = self.iso_y# int(self.game.screen.get_rect().y + self.iso_y)
+        
         self.game.screen.blit(self.image, render_rect)
 

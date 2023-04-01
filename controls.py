@@ -1,4 +1,5 @@
 import pygame
+from settings import *
 
 class Controls:
     def __init__(self):
@@ -36,7 +37,15 @@ class Controls:
         return 0
     
     def collide_group(self, x, y, list, camera):
-        for instance in list:
-            if instance.id == "wall" and camera.apply(instance).collidepoint((x,y)):
-                return True
+        l = []
+        for g in list:
+            l.append(g)
+        for instance in reversed(l):
+            if instance.id != "wall":
+                render_rect = camera.apply(instance)
+                iso_x = ((render_rect.y//TILESIZE) * TILEWIDTH_HALF - (render_rect.x//TILESIZE) * TILEHEIGHT_HALF) 
+                iso_y = ((render_rect.y//TILESIZE) * TILEWIDTH_HALF + (render_rect.x//TILESIZE) * TILEHEIGHT_HALF)/2
+                render_rect.x, render_rect.y = iso_x, iso_y
+                if render_rect.collidepoint((x,y)):
+                    return instance
         return False

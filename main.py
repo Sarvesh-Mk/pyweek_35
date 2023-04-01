@@ -20,13 +20,16 @@ class Game:
         pygame.display.set_caption(TITLE)
         self.clock = pygame.time.Clock()
         self.timer = 0
+        self.state_render = True
+        self.selected = False
 
     
     def new(self):
         self.offset = [WIDTH // 2, HEIGHT // 2]
         self.all_sprites = pygame.sprite.Group()
         self.tiles = pygame.sprite.Group()
-        self.map = Map(100, 50)
+        self.ground = pygame.sprite.Group()
+        self.map = Map(100, 100)
         self.camera = Camera(self.map.width, self.map.height)
         self.spriteController = SpriteController()
 
@@ -74,8 +77,11 @@ class Game:
     def draw(self):
         self.screen.fill(BACKGROUND_COLOR)
 
-        for sprite in self.all_sprites:
+        for sprite in self.tiles:
             sprite.render_isometric()
+        if self.state_render:
+            for sprite in self.all_sprites:
+                sprite.render_isometric()
         
         # self.lights.draw(self.screen, self.offset)
 
@@ -90,12 +96,21 @@ class Game:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.quit()
+                if event.key == pygame.K_1:
+                    self.state_render = True
+                if event.key == pygame.K_2:
+                    self.state_render = False
             self.controls.keyboard_input(event)
             mouse_event = self.controls.mouse_input(event)
             if mouse_event == 1:
                 x, y = pygame.mouse.get_pos()
-                if not self.controls.collide_group(x,y,self.tiles,self.camera):
-                    self.tower_manager.add_tower(self.offset, self.lights)
+                
+                if self.selected != False:
+                    self.selected.selected = False
+                self.selected = self.controls.collide_group(x,y,self.tiles,self.camera)
+                print(self.selected)
+                if self.selected != False:
+                    self.selected.selected = True
 
 if __name__ == "__main__":               
     g = Game()
